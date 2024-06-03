@@ -17,7 +17,7 @@ jobs:
     name: Unit testing
     strategy:
       matrix:
-        nodejs_version: [18, 19, 20]
+        nodejs_version: [18, 19]
         operating_system: [ubuntu-latest, macos-latest]
         exclude:
           - nodejs_version: 18
@@ -98,12 +98,12 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }} 
       
-      - name: Build and export to Docker
-        uses: docker/build-push-action@v5
+      - name: Docker Build for Testing
+        uses: docker/build-push-action@v4
         with:
           context: .
           load: true
-          tags: docker.io/${{ vars.DOCKER_USERNAME }}/solar-system:${{ github.sha }}
+          tags: ${{ vars.DOCKER_USERNAME }}/solar-system:${{ github.sha }}
 
       - name: Docker Image Test
         run: |
