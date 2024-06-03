@@ -103,8 +103,8 @@ jobs:
         with:
           context: .
           push: false
-          tags: "${{ vars.DOCKER_USERNAME }}/solar-system:${{ github.sha }}"
-
+          tags: vitoriono/solar-system:${{ github.sha }}
+          
       - name: Docker Image Test
         run: |
           docker images
