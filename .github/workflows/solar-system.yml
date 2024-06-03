@@ -103,7 +103,7 @@ jobs:
         with:
           context: .
           load: true
-          tags: ${{ vars.DOCKER_USERNAME }}/solar-system:${{ github.sha }}
+          tags: docker.io/${{ vars.DOCKER_USERNAME }}/solar-system:${{ github.sha }}
 
       - name: Docker Image Test
         run: |
