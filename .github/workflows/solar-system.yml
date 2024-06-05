@@ -66,6 +66,15 @@ jobs:
     name: Code Coverage
     container: 
       image: node:18
+    # services:                  #  Using Service of non-prod db instead prod db, for testing
+    #   mongo-db: 
+    #     image: siddharth67/mongo-db:non-prod
+    #     options: 
+    #       --name mongo  
+    # env:
+    #   MONGO_URI: 'mongodb://mongo:27017/superData'
+    #   MONGO_USERNAME: non-prod-user
+    #   MONGO_PASSWORD: non-prod-password
     runs-on: ubuntu-latest
     steps: 
       - name: Checkout Repository
@@ -151,7 +160,23 @@ jobs:
               ${{ vars.DOCKER_USERNAME }}/solar-system:${{ github.sha }}
               ghcr.io/${{ env.OWNER_LOWERCASE }}/solar-system:${{ github.sha }}
 
-         
+  dev-deploy:
+    needs: docker
+    runs-on: ubuntu-latest   
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        
+      - name: Install kubectl CLI
+        uses: azure/setup-kubectl@v3
+        with:
+          version: 'v1.26.0'
+
+      - name: Fetch Kubernetes Cluster Details
+        run: |
+          kubectl version --short
+          echo -----------------------------------
+          kubectl get nodes
 
 
 
